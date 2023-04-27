@@ -1,4 +1,5 @@
 import argparse
+from tqdm import tqdm
 import cv2
 import numpy as np 
 import os
@@ -18,8 +19,9 @@ def getFiles(train, path):
     images = []
     count = 0
     for folder in os.listdir(path):
-        for file in  os.listdir(os.path.join(path, folder)):
-            images.append(os.path.join(path, os.path.join(folder, file)))
+        if folder != '.DS_Store':
+            for file in  os.listdir(os.path.join(path, folder)):
+                images.append(os.path.join(path, os.path.join(folder, file)))
 
     if(train is True):
         np.random.shuffle(images)
@@ -218,14 +220,18 @@ def testModel(path, kmeans, scale, svm, im_features, no_clusters, kernel):
     true = []
     descriptor_list = []
 
-    name_dict =	{
-        "0": "city",
-        "1": "face",
-        "2": "green",
-        "3": "house_building",
-        "4": "house_indoor",
-        "5": "office",
-        "6": "sea"
+    # name_dict =	{
+    #     "0": "city",
+    #     "1": "face",
+    #     "2": "green",
+    #     "3": "house_building",
+    #     "4": "house_indoor",
+    #     "5": "office",
+    #     "6": "sea"
+    # }
+    name_dict = {
+        '0': 'hotdog',
+        '1': 'notdog'
     }
 
     sift = cv2.xfeatures2d.SIFT_create()
@@ -238,20 +244,22 @@ def testModel(path, kmeans, scale, svm, im_features, no_clusters, kernel):
             count += 1
             descriptor_list.append(des)
 
-            if("city" in img_path):
-                true.append("city")
-            elif("face" in img_path):
-                true.append("face")
-            elif("green" in img_path):
-                true.append("green")
-            elif("house_building" in img_path):
-                true.append("house_building")
-            elif("house_indoor" in img_path):
-                true.append("house_indoor")
-            elif("office" in img_path):
-                true.append("office")
-            else:
-                true.append("sea")
+            # if("city" in img_path):
+            #     true.append("city")
+            # elif("face" in img_path):
+            #     true.append("face")
+            # elif("green" in img_path):
+            #     true.append("green")
+            # elif("house_building" in img_path):
+            #     true.append("house_building")
+            # elif("house_indoor" in img_path):
+            #     true.append("house_indoor")
+            # elif("office" in img_path):
+            #     true.append("office")
+            # else:
+            #     true.append("sea")
+            if ('hotdog' in img_path): true.append('hotdog')
+            else: true.append('hotdog')
 
     descriptors = vstackDescriptors(descriptor_list)
 
@@ -279,16 +287,20 @@ def execute(train_path, test_path, no_clusters, kernel):
 
 if __name__ == '__main__':
 
-    parser = argparse.ArgumentParser()
+    # parser = argparse.ArgumentParser()
 
-    parser.add_argument('--train_path', action="store", dest="train_path", required=True)
-    parser.add_argument('--test_path', action="store", dest="test_path", required=True)
-    parser.add_argument('--no_clusters', action="store", dest="no_clusters", default=50)
-    parser.add_argument('--kernel_type', action="store", dest="kernel_type", default="linear")
+    # parser.add_argument('--train_path', action="store", dest="train_path", required=True)
+    # parser.add_argument('--test_path', action="store", dest="test_path", required=True)
+    # parser.add_argument('--no_clusters', action="store", dest="no_clusters", default=50)
+    # parser.add_argument('--kernel_type', action="store", dest="kernel_type", default="linear")
 
-    args =  vars(parser.parse_args())
-    if(not(args['kernel_type'] == "linear" or args['kernel_type'] == "precomputed")):
-        print("Kernel type must be either linear or precomputed")
-        exit(0)
+    # args =  vars(parser.parse_args())
+    # if(not(args['kernel_type'] == "linear" or args['kernel_type'] == "precomputed")):
+    #     print("Kernel type must be either linear or precomputed")
+    #     exit(0)
 
-    execute(args['train_path'], args['test_path'], int(args['no_clusters']), args['kernel_type'])
+    # execute(args['train_path'], args['test_path'], int(args['no_clusters']), args['kernel_type'])
+    train_path = './train/'
+    #print(os.listdir(train_path))
+    test_path = './test/'
+    execute(train_path,test_path,50,'linear')
