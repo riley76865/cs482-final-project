@@ -170,20 +170,23 @@ def trainModel(path, no_clusters, kernel):
     image_count = len(images)
 
     for img_path in images:
-        if("city" in img_path):
+        # if("city" in img_path):
+        #     class_index = 0
+        # elif("face" in img_path):
+        #     class_index = 1
+        # elif("green" in img_path):
+        #     class_index = 2
+        # elif("house_building" in img_path):
+        #     class_index = 3
+        # elif("house_indoor" in img_path):
+        #     class_index = 4
+        # elif("office" in img_path):
+        #   class_index = 5
+        # else:
+        #   class_index = 6
+        if ('hotdog' in img_path):
             class_index = 0
-        elif("face" in img_path):
-            class_index = 1
-        elif("green" in img_path):
-            class_index = 2
-        elif("house_building" in img_path):
-            class_index = 3
-        elif("house_indoor" in img_path):
-            class_index = 4
-        elif("office" in img_path):
-          class_index = 5
-        else:
-          class_index = 6
+        else: class_index = 1
 
         train_labels = np.append(train_labels, class_index)
         img = readImage(img_path)
