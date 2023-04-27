@@ -148,7 +148,8 @@ def plotConfusionMatrix(y_true, y_pred, classes,
 def plotConfusions(true, predictions):
     np.set_printoptions(precision=2)
 
-    class_names = ["city", "face", "green", "house_building", "house_indoor", "office", "sea"]
+    #class_names = ["city", "face", "green", "house_building", "house_indoor", "office", "sea"]
+    class_names = ['hotdog','notdog']
     plotConfusionMatrix(true, predictions, classes=class_names,
                       title='Confusion matrix, without normalization')
 
