@@ -90,13 +90,8 @@ def findSVM(im_features, train_labels, kernel):
     C_param, gamma_param = params.get("C"), params.get("gamma")
     print(C_param, gamma_param)
     class_weight = {
-        0: (807 / (7 * 140)),
-        1: (807 / (7 * 140)),
-        2: (807 / (7 * 133)),
-        3: (807 / (7 * 70)),
-        4: (807 / (7 * 42)),
-        5: (807 / (7 * 140)),
-        6: (807 / (7 * 142)) 
+        0: 1,
+        1: 1 
     }
   
     svm = SVC(kernel = kernel, C =  C_param, gamma = gamma_param, class_weight = class_weight)
@@ -307,4 +302,4 @@ if __name__ == '__main__':
     train_path = './train/'
     #print(os.listdir(train_path))
     test_path = './test/'
-    execute(train_path,test_path,50,'linear')
+    execute(train_path,test_path,15,'linear')
